@@ -26,11 +26,11 @@ VALUES
 
 -- Inserção de dados na tabela peça
 
-INSERT INTO peca (codigo, descricao, marca, modelo, preco, quantidade_estoque)
+INSERT INTO peca (codigo, descricao, marca, modelo, preco, quantidade_estoque, data_cadastro)
 VALUES
-  ('123456', 'Pneu 185/65 R15', 'Bridgestone', 'Turanza ER300', 200.00, 50),
-  ('789012', 'Amortecedor dianteiro', 'Monroe', 'Gas-a-Gas', 300.00, 20),
-  ('345678', 'Pastilha de freio dianteira', 'Valeo', 'Sinterizadas', 150.00, 100);
+  ('123456', 'Pneu 185/65 R15', 'Bridgestone', 'Turanza ER300', 200.00, 50, CURRENT_TIMESTAMP()),
+  ('789012', 'Amortecedor dianteiro', 'Monroe', 'Gas-a-Gas', 300.00, 20, CURRENT_TIMESTAMP()),
+  ('345678', 'Pastilha de freio dianteira', 'Valeo', 'Sinterizadas', 150.00, 100, CURRENT_TIMESTAMP());
 
 -- Inserção de dados na tabela serviço
 
@@ -42,4 +42,27 @@ VALUES
 
 -- Inserção de dados na tabela ordem_servico
 
-INSERT INTO ordem_servico (cliente_id, data_abertura, data_fechamento, status, valor_total, funcionario_
+INSERT INTO ordem_servico (cliente_id, data_abertura, data_fechamento, status, valor_total, funcionario_id, veiculo_id, peca_id, servico_id)
+VALUES
+  (1, '2023-03-08', NULL, 'Aberto', 1000.00, 1, 1, 1, 1);
+
+-- Criação de uma função para calcular o valor total de uma ordem de serviço
+
+CREATE FUNCTION valor_total_ordem_servico(
+  id_ordem_servico INT
+) RETURNS DOUBLE
+AS
+BEGIN
+  -- Retorna o valor total da ordem de serviço
+  RETURN (
+    SELECT SUM(servico.preco)
+    FROM ordem_servico
+    JOIN servico
+      ON ordem_servico.servico_id = servico.id
+    WHERE ordem_servico.id = id_ordem_servico
+  );
+END;
+
+-- Usando a função para calcular o valor total de uma ordem de serviço
+
+SELECT valor_total_ordem_servico(1);
