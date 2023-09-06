@@ -9,6 +9,7 @@ CREATE TABLE cliente (
   telefone VARCHAR(255) NOT NULL,
   e-mail VARCHAR(255) NOT NULL,
   data_nascimento DATE NOT NULL,
+  data_cadastro DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -19,6 +20,7 @@ CREATE TABLE funcionario (
   funcao VARCHAR(255) NOT NULL,
   salario DECIMAL(10,2) NOT NULL,
   data_contratacao DATE NOT NULL,
+  data_cadastro DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -30,6 +32,7 @@ CREATE TABLE veiculo (
   marca VARCHAR(255) NOT NULL,
   ano INT NOT NULL,
   cor VARCHAR(255) NOT NULL,
+  data_cadastro DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -41,6 +44,7 @@ CREATE TABLE peca (
   modelo VARCHAR(255) NOT NULL,
   preco DECIMAL(10,2) NOT NULL,
   quantidade_estoque INT NOT NULL,
+  data_cadastro DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -50,6 +54,7 @@ CREATE TABLE servico (
   descricao VARCHAR(255) NOT NULL,
   preco DECIMAL(10,2) NOT NULL,
   tempo_execucao INT NOT NULL,
+  data_cadastro DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -61,6 +66,7 @@ CREATE TABLE ordem_servico (
   status VARCHAR(255) NOT NULL,
   valor_total DECIMAL(10,2) NOT NULL,
   funcionario_responsavel INT NOT NULL,
+  data_cadastro DATETIME NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (cliente_id) REFERENCES cliente (id) ON DELETE CASCADE
 );
@@ -72,6 +78,7 @@ CREATE TABLE item_ordem_servico (
   quantidade INT NOT NULL,
   preco_unitario DECIMAL(10,2) NOT NULL,
   valor_total DECIMAL(10,2) NOT NULL,
+  data_cadastro DATETIME NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (ordem_servico_id) REFERENCES ordem_servico (id) ON DELETE CASCADE,
   FOREIGN KEY (servico_id) REFERENCES servico (id) ON DELETE CASCADE
@@ -82,6 +89,7 @@ CREATE TABLE pagamento (
   ordem_servico_id INT NOT NULL,
   forma_pagamento VARCHAR(255) NOT NULL,
   data_pagamento DATE NOT NULL,
+  data_cadastro DATETIME NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (ordem_servico_id) REFERENCES ordem_servico (id) ON DELETE CASCADE
 );
